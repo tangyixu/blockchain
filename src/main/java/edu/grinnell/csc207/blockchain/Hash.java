@@ -9,7 +9,7 @@ import java.security.NoSuchAlgorithmException;
  */
 public class Hash {
 
-    byte[] dataVal;
+    private byte[] dataVal;
 
     public static byte[] calculateHash(String msg) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("sha-256");
@@ -76,7 +76,7 @@ public class Hash {
     @Override
     public boolean equals(Object other) {
         if (other instanceof Hash o) {
-            return Arrays.equals(o.dataVal, this.dataVal);
+            return Arrays.equals(o.getData(), this.dataVal);
         }
         return false;
     }

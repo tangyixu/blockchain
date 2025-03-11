@@ -20,9 +20,10 @@ public class Block {
      * @return a valid nonce.
      * @throws java.security.NoSuchAlgorithmException
      */
-    private long mining(Hash prevHash) throws NoSuchAlgorithmException {
+    private long mining() throws NoSuchAlgorithmException {
         long finalNonce = 0;
-        Hash test = new Hash(Hash.calculateHash(prevHash.toString() + finalNonce));
+        Hash test;
+        test = new Hash(Hash.calculateHash(this.numBlock, this.amountTransfer, this.prevHash, this.nonce));
         while (true) {
             if (test.isValid()) {
                 return finalNonce;
@@ -45,8 +46,8 @@ public class Block {
         this.numBlock = num;
         this.amountTransfer = amount;
         this.prevHash = prevHash;
-        this.nonce = mining(prevHash);
-        this.hash = new Hash(Hash.calculateHash(this.prevHash.toString() + nonce));
+        this.nonce = mining();
+        this.hash = new Hash(Hash.calculateHash(this.numBlock, this.amountTransfer, this.prevHash, this.nonce));
     }
 
     /**

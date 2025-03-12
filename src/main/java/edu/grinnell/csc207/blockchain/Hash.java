@@ -16,7 +16,7 @@ public class Hash {
         MessageDigest md = MessageDigest.getInstance("sha-256");
         md.update(ByteBuffer.allocate(4).putInt(numB).array());
         md.update(ByteBuffer.allocate(4).putInt(amountTrans).array());
-        if (numB != 0) {
+        if (prevHash != null) {
             md.update(prevHash.getData());
         }
         md.update(ByteBuffer.allocate(8).putLong(nonce).array());

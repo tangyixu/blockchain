@@ -16,19 +16,17 @@ public class Block {
     /**
      * Do mining to find a valid nonce for the block.
      *
-     * @param prevHash
      * @return a valid nonce.
      * @throws java.security.NoSuchAlgorithmException
      */
-    private long mining() throws NoSuchAlgorithmException {
+    public long mining() throws NoSuchAlgorithmException {
         long finalNonce = 0;
-        Hash test;
-        test = new Hash(Hash.calculateHash(this.numBlock, this.amountTransfer, this.prevHash, this.nonce));
         while (true) {
+            Hash test = new Hash(Hash.calculateHash(this.numBlock, this.amountTransfer, this.prevHash, finalNonce));
             if (test.isValid()) {
                 return finalNonce;
             }
-            nonce++;
+            finalNonce++;
         }
     }
 
@@ -46,7 +44,7 @@ public class Block {
         this.numBlock = num;
         this.amountTransfer = amount;
         this.prevHash = prevHash;
-        this.nonce = mining();
+        this.nonce = this.mining();
         this.hash = new Hash(Hash.calculateHash(this.numBlock, this.amountTransfer, this.prevHash, this.nonce));
     }
 
@@ -57,12 +55,14 @@ public class Block {
      * @param amount
      * @param prevHash
      * @param nonce
+     * @throws java.security.NoSuchAlgorithmException
      */
-    public Block(int num, int amount, Hash prevHash, long nonce) {
+    public Block(int num, int amount, Hash prevHash, long nonce) throws NoSuchAlgorithmException {
         this.numBlock = num;
         this.amountTransfer = amount;
         this.prevHash = prevHash;
         this.nonce = nonce;
+        this.hash = new Hash(Hash.calculateHash(this.numBlock, this.amountTransfer, this.prevHash, this.nonce));
     }
 
     /**

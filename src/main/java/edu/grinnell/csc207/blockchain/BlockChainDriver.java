@@ -21,16 +21,19 @@ public class BlockChainDriver {
             System.out.println(chain.toString());
             System.out.println("Command?");
             String command = scanner.nextLine();
-            System.out.println("Amount transferred?");
-            int amount = Integer.parseInt(scanner.nextLine());
             switch (command) {
                 case "mine":
-                    System.out.println("amount = " + amount + ", nonce = " + chain.mine(amount));
+                    System.out.println("Amount transferred?");
+                    int amount = Integer.parseInt(scanner.nextLine());
+                    System.out.println("amount = " + amount + ", nonce = " + chain.mine(amount).getNonce());
                     break;
                 case "append":
+                    System.out.println("Amount transferred?");
+                    amount = Integer.parseInt(scanner.nextLine());
                     System.out.println("Nonce?");
                     long nonce = Long.parseLong(scanner.nextLine());
-                    chain.append(new Block(chain.getSize(), amount, chain.getHash(), nonce));
+                    Block newB = new Block(chain.getSize(), amount, chain.getHash(), nonce);
+                    chain.append(newB);
                     break;
                 case "remove":
                     chain.removeLast();
@@ -48,17 +51,16 @@ public class BlockChainDriver {
                 case "help":
                     System.out.println("Valid commands:");
                     System.out.println("""
-                                           mine: discovers the nonce for a given transaction
-                                           append: appends a new block onto the end of the chain
-                                           remove: removes the last block from the end of the chain
-                                           check: checks that the block chain is valid
-                                           report: reports the balances of Alice and Bob
-                                           help: prints this list of commands
-                                           quit: quits the program""");
+                                             mine: discovers the nonce for a given transaction
+                                             append: appends a new block onto the end of the chain
+                                             remove: removes the last block from the end of the chain
+                                             check: checks that the block chain is valid
+                                             report: reports the balances of Alice and Bob
+                                             help: prints this list of commands
+                                             quit: quits the program""");
                     break;
                 case "quit":
                     System.exit(0);
-                    break;
                 default:
                     System.out.println("Invalid commands. Try again");
             }

@@ -32,10 +32,13 @@ public class BlockChain {
      * @throws java.security.NoSuchAlgorithmException
      */
     public BlockChain(int initial) throws NoSuchAlgorithmException {
-        this.first = new Node(new Block(0, initial, null), last);
+        this.last = new Node<>(null, null);
+        Block firstB = new Block(0, initial, null);
+        this.first = new Node<>(firstB, last);
         this.last = first;
-        this.currentBalance += initial;
+        this.currentBalance = initial;
         this.initialBalance = initial;
+
     }
 
     /**
@@ -67,11 +70,14 @@ public class BlockChain {
     public void append(Block blk) {
         if (this.currentBalance + blk.getAmount() > 0) {
             this.currentBalance += blk.getAmount();
-            if (this.getSize() == 1) {
-                this.last = new Node(blk, null);
+            if (this.first == this.last) {
+                this.first.next = new Node(blk, null);
+                this.last = this.first.next;
             } else {
-                this.last.next = new Node(blk, null);
-                this.last = this.last.next;
+                if (this.last != null) {
+                    this.last.next = new Node(blk, null);
+                    this.last = this.last.next;
+                }
             }
         } else {
             throw new IllegalArgumentException("invalid block");
@@ -106,6 +112,9 @@ public class BlockChain {
      * @return a hash.
      */
     public Hash getHash() {
+        if (this.first == this.last) {
+            return this.first.value.getHash();
+        }
         return this.last.value.getHash();
     }
 
@@ -124,7 +133,7 @@ public class BlockChain {
      * Bob: amount on a single line. e.g., Alice: 300, Bob: 0.
      */
     public void printBalances() {
-        int bobBalance = this.currentBalance - this.initialBalance;
+        int bobBalance = this.initialBalance - this.currentBalance;
         System.out.println("Alice: " + this.currentBalance + ", Bob: " + bobBalance + ".");
     }
 
@@ -139,8 +148,8 @@ public class BlockChain {
     public String toString() {
         String result = "";
         Node<Block> pointer = this.first;
-        for (int n = 0; n < this.getSize(); n++) {
-            result += pointer.toString();
+        while (pointer != null && pointer.value != null) {
+            result += pointer.value.toString();
             result += "\n";
             pointer = pointer.next;
         }

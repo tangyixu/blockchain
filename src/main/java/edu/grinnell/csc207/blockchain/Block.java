@@ -22,7 +22,8 @@ public class Block {
     public long mining() throws NoSuchAlgorithmException {
         long finalNonce = 0;
         while (true) {
-            Hash test = new Hash(Hash.calculateHash(this.numBlock, this.amountTransfer, this.prevHash, finalNonce));
+            Hash test = new Hash(Hash.calculateHash(this.numBlock,
+                    this.amountTransfer, this.prevHash, finalNonce));
             if (test.isValid()) {
                 return finalNonce;
             }
@@ -45,7 +46,8 @@ public class Block {
         this.amountTransfer = amount;
         this.prevHash = prevHash;
         this.nonce = this.mining();
-        this.hash = new Hash(Hash.calculateHash(this.numBlock, this.amountTransfer, this.prevHash, this.nonce));
+        this.hash = new Hash(Hash.calculateHash(this.numBlock,
+                this.amountTransfer, this.prevHash, this.nonce));
     }
 
     /**
@@ -62,7 +64,8 @@ public class Block {
         this.amountTransfer = amount;
         this.prevHash = prevHash;
         this.nonce = nonce;
-        this.hash = new Hash(Hash.calculateHash(this.numBlock, this.amountTransfer, this.prevHash, this.nonce));
+        this.hash = new Hash(Hash.calculateHash(this.numBlock,
+                this.amountTransfer, this.prevHash, this.nonce));
     }
 
     /**

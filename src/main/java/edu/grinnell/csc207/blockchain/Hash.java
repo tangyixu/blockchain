@@ -12,7 +12,18 @@ public class Hash {
 
     private byte[] dataVal;
 
-    public static byte[] calculateHash(int numB, int amountTrans, Hash prevHash, long nonce) throws NoSuchAlgorithmException {
+    /**
+     * Calculate the hash.
+     *
+     * @param numB
+     * @param amountTrans
+     * @param prevHash
+     * @param nonce
+     * @return a bye[] as the hash.
+     * @throws NoSuchAlgorithmException
+     */
+    public static byte[] calculateHash(int numB, int amountTrans,
+            Hash prevHash, long nonce) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("sha-256");
         md.update(ByteBuffer.allocate(4).putInt(numB).array());
         md.update(ByteBuffer.allocate(4).putInt(amountTrans).array());

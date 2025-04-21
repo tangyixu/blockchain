@@ -68,19 +68,15 @@ public class BlockChain {
      * @param blk
      */
     public void append(Block blk) {
-        if (this.currentBalance + blk.getAmount() > 0) {
-            this.currentBalance += blk.getAmount();
-            if (this.first == this.last) {
-                this.first.next = new Node(blk, null);
-                this.last = this.first.next;
-            } else {
-                if (this.last != null) {
-                    this.last.next = new Node(blk, null);
-                    this.last = this.last.next;
-                }
-            }
+        this.currentBalance += blk.getAmount();
+        if (this.first == this.last) {
+            this.first.next = new Node(blk, null);
+            this.last = this.first.next;
         } else {
-            throw new IllegalArgumentException("invalid block");
+            if (this.last != null) {
+                this.last.next = new Node(blk, null);
+                this.last = this.last.next;
+            }
         }
     }
 
@@ -125,7 +121,7 @@ public class BlockChain {
      * @return true if it is valid, false otherwise.
      */
     public boolean isValidBlockChain() {
-        return this.currentBalance > 0;
+        return this.currentBalance >= 0;
     }
 
     /**
